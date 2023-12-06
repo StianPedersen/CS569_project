@@ -95,11 +95,15 @@ def camera_view_bounds_2d(scene, cam_ob, me_ob,filename):
 
     # Sanity check
     if round((max_x - min_x) * dim_x) == 0 or round((max_y - min_y) * dim_y) == 0:
-        return (0, 0, 0, 0)
-
-    image_with_bb(filename,round(min_x * dim_x),            
-        round(dim_y - max_y * dim_y),    
-        round((max_x - min_x) * dim_x),  
-        round((max_y - min_y) * dim_y) )
+        x,y,width,height =0,0,0,0
+    else:
+        x=round(min_x * dim_x)
+        y = round(dim_y - max_y * dim_y)
+        width = round((max_x - min_x) * dim_x)
+        height = round((max_y - min_y) * dim_y)
+    with open(filename+'.txt', 'w') as f:
+        f.write('0 {} {} {} {} '.format(x,y,width,height))
+    
+    image_with_bb(filename,x,y,width ,height)
    
     
