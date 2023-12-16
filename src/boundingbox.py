@@ -19,9 +19,6 @@ def image_with_bb(filename,x,y,width,height):
 
     im.save(filename+"_bb.png")  
 
-    
-
-
 def clamp(x, minimum, maximum):
     return max(minimum, min(x, maximum))
 
