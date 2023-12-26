@@ -28,15 +28,34 @@ def apply_random_transformation(current_object):
     bmesh.update_edit_mesh(mesh)
     bpy.ops.object.mode_set(mode='OBJECT')
 
-def set_material():
-    mat = bpy.data.materials.new(name='Square_Material')
-    mat.use_nodes = True
-    mat_nodes = mat.node_tree.nodes
-    mat_nodes['Principled BSDF'].inputs['Metallic'].default_value=0.0
-    mat_nodes['Principled BSDF'].inputs['Roughness'].default_value=0.9
-    mat_nodes['Principled BSDF'].inputs['Base Color'].default_value=(0.05, 0.0185, 0.8, 1.0)
-    mat_nodes['Principled BSDF'].inputs['Roughness'].default_value=0.167
-    return mat
+def generate_random_material():    
+    mat = bpy.data.materials.new(name="Material") 
+    mat.use_nodes = True 
+    nodes = mat.node_tree.nodes 
+    nodes.clear()
+
+    # Add output node
+    output = nodes.new( type = 'ShaderNodeOutputMaterial' )
+
+    # Add diffuse node 
+    diffuse = nodes.new(type="ShaderNodeBsdfDiffuse") 
+    diffuse.inputs[0].default_value = (random.random(), random.random(), random.random(), 1) 
+ 
+    # Add glossy node 
+    glossy = nodes.new(type="ShaderNodeBsdfGlossy") 
+    glossy.inputs[0].default_value = (random.random(), random.random(), random.random(), 1) 
+ 
+    # Add mix node 
+    mix = nodes.new(type="ShaderNodeMixShader") 
+    mix.inputs['Fac'].default_value = random.random() 
+ 
+    # Connect nodes 
+    links = mat.node_tree.links 
+    links.new(diffuse.outputs[0], mix.inputs[1]) 
+    links.new(glossy.outputs[0], mix.inputs[2])
+    links. new(mix.outputs[0],output.inputs[0])
+ 
+    return mat 
 
 def set_positive_object():
     mat_find = bpy.data.materials.new(name='Material_red')
@@ -54,10 +73,23 @@ def set_positive_object():
     return positive_cube
 
 def set_lighting():
+    # TODO: Create light from the 4 different types of lights, and for all of these choose random paramters that fit 
+    # Point
+    # Spot
+    # Sun
+    # Area
+
+
     light_data = bpy.data.lights.new('light', type='POINT')
     light = bpy.data.objects.new('light', light_data)
     bpy.data.collections[Collection_Name].objects.link(light)
+
+    # Set random location
     light.location = (0, 0, 20)  
+    light_location = light.location
+    light.location = rotate(light_location, 60, axis=(0, 0, 1))
+
+    # Set random light
     light.data.energy=8000.0
 
 def set_camera():

@@ -12,10 +12,6 @@ for variations in range(0,nr_different_scenes):
     myCollection = bpy.data.collections.new(Collection_Name)
     bpy.context.scene.collection.children.link(myCollection)
 
-    # Set uniform material TODO: Make this function return random material 
-    mat = set_material()
-    mat.use_nodes=True
-
     x = y = -24 # Start in uppermost corner
     for curr_row in range(0,4,1):
         x = x + (curr_row+8)
@@ -23,11 +19,11 @@ for variations in range(0,nr_different_scenes):
         for curr_col in range(0,4,1):
             y = y + (curr_col+8)
             bpy.ops.mesh.primitive_cube_add(size=3, location=(x,y,1.5))
-
-            obj = bpy.context.active_object
+            obj = bpy.context.active_object     
             apply_random_transformation(obj)
             obj.name ='Cube_{}-{}'.format(curr_row,curr_col)
-            obj.data.materials.append(mat) # TODO: Call set_material function when it return random
+            obj.data.materials.clear()  
+            obj.data.materials.append(generate_random_material()) 
             bpy.ops.collection.objects_remove_all()
             bpy.data.collections[Collection_Name].objects.link(obj)
         y = -24 # New row
