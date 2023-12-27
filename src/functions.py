@@ -7,6 +7,7 @@ import random
 import math
 from boundingbox import camera_view_bounds_2d
 from transformation import rotate
+import numpy as np
 
 
 
@@ -73,24 +74,52 @@ def set_positive_object():
     return positive_cube
 
 def set_lighting():
-    # TODO: Create light from the 4 different types of lights, and for all of these choose random paramters that fit 
-    # Point
-    # Spot
-    # Sun
-    # Area
+    random_select = random.randint(0,3) 
+    angle = random.randint(0,360)
+    radius = random.randint(0,20) # Bottom plate is -20 -> 20
+    x = radius * np.sin(np.pi * 2 * (angle/360))
+    y = radius * np.cos(np.pi * 2 * (angle/360))
 
+    if random_select == 0:
+        light_data = bpy.data.lights.new('light', type='SPOT')
+        light = bpy.data.objects.new('light', light_data)
+        bpy.data.collections[Collection_Name].objects.link(light)
+        light.location = (x, y, 20)  
+        
+        # Random spot_size
+        light.data.spot_size = random.randint(157,314) / 100
+        
+        # Random energy
+        light.data.energy= random.randint(6000,13000)
 
-    light_data = bpy.data.lights.new('light', type='POINT')
-    light = bpy.data.objects.new('light', light_data)
-    bpy.data.collections[Collection_Name].objects.link(light)
+    elif random_select == 1:
+        light_data = bpy.data.lights.new('light', type='SUN')
+        light = bpy.data.objects.new('light', light_data)
+        bpy.data.collections[Collection_Name].objects.link(light)
+        light.location = (0, 0, 20)  
 
-    # Set random location
-    light.location = (0, 0, 20)  
-    light_location = light.location
-    light.location = rotate(light_location, 60, axis=(0, 0, 1))
+        # Set random light
+        light.data.energy = random.randint(5,15) / 10
 
-    # Set random light
-    light.data.energy=8000.0
+    elif random_select == 2:
+        light_data = bpy.data.lights.new('light', type='AREA')
+        light = bpy.data.objects.new('light', light_data)
+        bpy.data.collections[Collection_Name].objects.link(light)
+        # Set random location
+        light.location = (0, 0, 20)  
+
+        # Set random light
+        light.data.energy = random.randint(2000,6000)
+        light.data.size = random.randint(20,60)
+
+    else:
+        light_data = bpy.data.lights.new('light', type='POINT')
+        light = bpy.data.objects.new('light', light_data)
+        bpy.data.collections[Collection_Name].objects.link(light)
+        # Set random location
+        light.location = (0, 0, 20)  
+        # Set random light
+        light.data.energy=8000.0
 
 def set_camera():
     cam_data = bpy.data.cameras.new('camera')
