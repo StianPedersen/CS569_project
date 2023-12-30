@@ -1,4 +1,6 @@
-Collection_Name = "Created_Collection"
-nr_different_scenes = 1
-nr_of_squares = 16
-change_factor = 3
+COLLECTION_NAME = "Created_Collection"
+DIFFERENT_SCENES = 3
+TRANSFORMATION_FACTOR = 3
+SAVE_PATH = "/home/stian/repos/CS569_project/files/"
+ROWS = COLS = 4
+ANGLE = 180
