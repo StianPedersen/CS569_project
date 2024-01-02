@@ -7,6 +7,29 @@ import os
 import shutil
 import glob
 
+if CLEAN:
+    # Remove all contents of the files in object_detection/test
+    for (ti, tl) in zip(glob.glob(detection_test_images),glob.glob(detection_test_labels)):
+        os.remove(ti)
+        os.remove(tl)
+
+    # Remove all contents of the files in object_detection/valid
+    for vi, vl in zip(glob.glob(detection_valid_images), glob.glob(detection_valid_labels)):
+        os.remove(vi)
+        os.remove(vl)
+
+    # Remove all contents of the files in object_detection/train
+    for ti,tl in zip(glob.glob(detection_test_images),glob.glob(detection_test_labels)):
+        os.remove(ti)
+        os.remove(tl)
+    
+    # Remove all contents of the files in files/
+    for i,t in zip(glob.glob(files_img),glob.glob(files_txt_files)):
+        os.remove(i)
+        os.remove(t)
+    for b in glob.glob(files_bb):
+        os.remove(b)
+
 for variations in range(0,DIFFERENT_SCENES):
     # Reset all created objects in the scene
     reset_blender_collection(bpy.data.collections.get(COLLECTION_NAME))
@@ -45,29 +68,6 @@ for variations in range(0,DIFFERENT_SCENES):
     render_image(cam, variations, positive_object)
 
 # Move images to object_detection folder
-    
-# Remove all contents of the files
-files = glob.glob('/home/stian/repos/CS569_project/src/object_detection/test/images/*')
-for f in files:
-    os.remove(f)
-files = glob.glob('/home/stian/repos/CS569_project/src/object_detection/test/labels/*')
-for f in files:
-    os.remove(f)
-
-files = glob.glob('/home/stian/repos/CS569_project/src/object_detection/valid/images/*')
-for f in files:
-    os.remove(f)
-files = glob.glob('/home/stian/repos/CS569_project/src/object_detection/valid/labels/*')
-for f in files:
-    os.remove(f)
-
-files = glob.glob('/home/stian/repos/CS569_project/src/object_detection/train/images/*')
-for f in files:
-    os.remove(f)
-files = glob.glob('/home/stian/repos/CS569_project/src/object_detection/train/labels/*')
-for f in files:
-    os.remove(f)
-
 src = "/home/stian/repos/CS569_project/files/img"
 allFileNames = os.listdir(src)
 np.random.shuffle(allFileNames)
@@ -108,8 +108,6 @@ for name in val_FileNames:
 
 for name in test_FileNames:
     shutil.copy(name, "/home/stian/repos/CS569_project/src/object_detection/test/images")
-
-
 
 # Copy-pasting images
 for name in txt_train_FileNames:

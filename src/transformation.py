@@ -4,10 +4,12 @@ import bpy
 import numpy as np
 from PIL import Image, ImageDraw
 from settings import *
+import fnmatch
+import os
+
     
 def rotation_matrix(axis, theta):
-    """
-    Return the rotation matrix associated with counterclockwise rotation about
+    """ Return the rotation matrix associated with counterclockwise rotation about
     the given axis by theta radians.
     """
     axis = np.asarray(axis)
@@ -23,7 +25,6 @@ def rotation_matrix(axis, theta):
 def rotate(point, angle_degrees, axis=(0,1,0)):
     theta_degrees = angle_degrees
     theta_radians = math.radians(theta_degrees)
-    
     rotated_point = np.dot(rotation_matrix(axis, theta_radians), point)
     return rotated_point
 
@@ -33,7 +34,15 @@ def clamp(x, minimum, maximum):
     return max(minimum, min(x, maximum))
 
 def camera_view_bounds_2d(scene, cam_ob, me_ob, file_name):
-
+    """ Adds boundingbox lines based on the view angle of the camera.
+    
+    Arguments:
+    scene -- The whole scene
+    cam_ob -- Camera object
+    me_ob -- Mesh object to be encapsulated 
+    file_name -- File name of current scene
+    
+    """
     mat = cam_ob.matrix_world.normalized().inverted()
     depsgraph = bpy.context.evaluated_depsgraph_get()
     mesh_eval = me_ob.evaluated_get(depsgraph)
@@ -103,16 +112,17 @@ def camera_view_bounds_2d(scene, cam_ob, me_ob, file_name):
         f.write('0 {} {} {} {} '.format(x_cen_norm,y_cen_norm,width_norm,height_norm))
 
     # Create BB image
-    x = x_center-(width / 2)
-    y = y_center- (height/2)
-    im = Image.open(SAVE_PATH + "img/" + file_name + ".png") 
-    line1 = [(x, y), (x + width, y)] 
-    line2 = [(x, y), (x, y+height)] 
-    line3 = [(x, y+height), (x + width, y+height)] 
-    line4 = [(x+width, y), (x+width,y+height)] 
-    img1 = ImageDraw.Draw(im) 
-    img1.line(line1, fill ="Green", width = 1) 
-    img1.line(line2, fill ="Green", width = 1) 
-    img1.line(line3, fill ="Green", width = 1) 
-    img1.line(line4, fill ="Green", width = 1) 
-    im.save(SAVE_PATH + "bb/" + file_name + "_bb.png")  
+    if len(fnmatch.filter(os.listdir("/home/stian/repos/CS569_project/files/bb"), '*.*')) < BB_AMOUNT:
+        x = x_center-(width / 2)
+        y = y_center- (height/2)
+        im = Image.open(SAVE_PATH + "img/" + file_name + ".png") 
+        line1 = [(x, y), (x + width, y)] 
+        line2 = [(x, y), (x, y+height)] 
+        line3 = [(x, y+height), (x + width, y+height)] 
+        line4 = [(x+width, y), (x+width,y+height)] 
+        img1 = ImageDraw.Draw(im) 
+        img1.line(line1, fill ="Green", width = 1) 
+        img1.line(line2, fill ="Green", width = 1) 
+        img1.line(line3, fill ="Green", width = 1) 
+        img1.line(line4, fill ="Green", width = 1) 
+        im.save(SAVE_PATH + "bb/" + file_name + "_bb.png")  

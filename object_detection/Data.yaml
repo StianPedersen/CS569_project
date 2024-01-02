@@ -1,0 +1,5 @@
+train: /home/stian/repos/CS569_project/object_detection/train/images
+val: /home/stian/repos/CS569_project/object_detection/valid/images
+test: /home/stian/repos/CS569_project/object_detection/test/images
+nc: 1
+names: ['scrap']

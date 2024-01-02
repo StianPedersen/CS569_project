@@ -1,0 +1,7 @@
+bpy
+matplotlib
+packaging
+pillow
+blender
+clearml
+split-folders

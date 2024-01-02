@@ -259,6 +259,8 @@ def render_image(cam, variations, positive_cube):
 
             # Save image
             scene.render.filepath= SAVE_PATH + "img/" + file_name
+            bpy.context.scene.render.resolution_x = SIZE_X
+            bpy.context.scene.render.resolution_y = SIZE_Y
             bpy.ops.render.render(write_still=1)
 
             # Create the bb image and .txt file
