@@ -22,7 +22,7 @@ def reset_blender_collection(coll):
             bpy.data.objects.remove(obs.pop())
         bpy.data.collections.remove(coll)
  
-
+''
 def apply_random_transformation(object):
     """ Applies a random transformation to a blender object.
 
@@ -93,7 +93,6 @@ def generate_random_material():
     links.new(diffuse.outputs[0], mix.inputs[1]) 
     links.new(glossy.outputs[0], mix.inputs[2])
     links.new(mix.outputs[0],output.inputs[0])
- 
     return mat 
 
 def set_positive_object():

@@ -9,23 +9,37 @@ import glob
 
 if CLEAN:
     # Remove all contents of the files in object_detection/test
-    for (ti, tl) in zip(glob.glob(detection_test_images),glob.glob(detection_test_labels)):
+    detection_test_images = '/home/stian/repos/CS569_project/object_detection/test/images/*'
+    detection_test_labels= '/home/stian/repos/CS569_project/object_detection/test/labels/*'
+    for ti in glob.glob(detection_test_images):
         os.remove(ti)
+    for  tl in glob.glob(detection_test_labels):
         os.remove(tl)
+    
 
     # Remove all contents of the files in object_detection/valid
-    for vi, vl in zip(glob.glob(detection_valid_images), glob.glob(detection_valid_labels)):
+    detection_valid_images = '/home/stian/repos/CS569_project/object_detection/valid/images/*'
+    detection_valid_labels= '/home/stian/repos/CS569_project/object_detection/valid/labels/*'
+    for vi in glob.glob(detection_valid_images):
         os.remove(vi)
+    for  vl in  glob.glob(detection_valid_labels):
         os.remove(vl)
 
     # Remove all contents of the files in object_detection/train
-    for ti,tl in zip(glob.glob(detection_test_images),glob.glob(detection_test_labels)):
+    detection_train_images = '/home/stian/repos/CS569_project/object_detection/train/images/*'
+    detection_train_labels= '/home/stian/repos/CS569_project/object_detection/train/labels/*'
+    for ti in glob.glob(detection_train_images):
         os.remove(ti)
+    for tl in glob.glob(detection_train_labels):
         os.remove(tl)
     
     # Remove all contents of the files in files/
-    for i,t in zip(glob.glob(files_img),glob.glob(files_txt_files)):
-        os.remove(i)
+    files_img = '/home/stian/repos/CS569_project/files/img/*'    
+    files_txt_files = '/home/stian/repos/CS569_project/files/txt_files/*'
+    files_bb = '/home/stian/repos/CS569_project/files/bb/*'
+    for i in glob.glob(files_img):
+         os.remove(i)
+    for t in glob.glob(files_txt_files):
         os.remove(t)
     for b in glob.glob(files_bb):
         os.remove(b)
@@ -53,8 +67,7 @@ for variations in range(0,DIFFERENT_SCENES):
             active_obj.data.materials.append(generate_random_material()) 
             bpy.ops.collection.objects_remove_all()
             bpy.data.collections[COLLECTION_NAME].objects.link(active_obj)
-        y = -24 # New row
-        
+        y = -24 # New row    
     # Set one random positive object for the object detection system to detect
     positive_object = set_positive_object()
 
@@ -101,20 +114,20 @@ print('Testing: ', len(test_FileNames))
 
 # Copy-pasting images
 for name in train_FileNames:
-    shutil.copy(name, "/home/stian/repos/CS569_project/src/object_detection/train/images")
+    shutil.copy(name, "/home/stian/repos/CS569_project/object_detection/train/images")
 
 for name in val_FileNames:
-    shutil.copy(name, "/home/stian/repos/CS569_project/src/object_detection/valid/images")
+    shutil.copy(name, "/home/stian/repos/CS569_project/object_detection/valid/images")
 
 for name in test_FileNames:
-    shutil.copy(name, "/home/stian/repos/CS569_project/src/object_detection/test/images")
+    shutil.copy(name, "/home/stian/repos/CS569_project/object_detection/test/images")
 
 # Copy-pasting images
 for name in txt_train_FileNames:
-    shutil.copy(name, "/home/stian/repos/CS569_project/src/object_detection/train/labels")
+    shutil.copy(name, "/home/stian/repos/CS569_project/object_detection/train/labels")
 
 for name in txt_val_FileNames:
-    shutil.copy(name, "/home/stian/repos/CS569_project/src/object_detection/valid/labels")
+    shutil.copy(name, "/home/stian/repos/CS569_project/object_detection/valid/labels")
 
 for name in txt_test_FileNames:
-    shutil.copy(name, "/home/stian/repos/CS569_project/src/object_detection/test/labels")
+    shutil.copy(name, "/home/stian/repos/CS569_project/object_detection/test/labels")

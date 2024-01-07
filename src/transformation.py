@@ -91,25 +91,27 @@ def camera_view_bounds_2d(scene, cam_ob, me_ob, file_name):
     dim_y = r.resolution_y * fac
 
     
-    x=round(min_x * dim_x)
+    x = round(min_x * dim_x)
     y = round(dim_y - max_y * dim_y)
     width = round((max_x - min_x) * dim_x)
     height = round((max_y - min_y) * dim_y)
     
     # Needed for YOLO Format TODO -> not static
-    imwidth = 1920
-    imheight = 1080 
+    imwidth = SIZE_X
+    imheight = SIZE_Y 
     
     # Create .txt file
     with open(SAVE_PATH + "txt_files/" + file_name + '.txt', 'a') as f:
         x_center = x + (width / 2)
         x_cen_norm = x_center / imwidth
-        width_norm = (width)/imwidth 
+
+        width_norm = width/imwidth 
+
         y_center = y + (height / 2)
         y_cen_norm = y_center / imheight
         height_norm = (height) / imheight 
 
-        f.write('0 {} {} {} {} '.format(x_cen_norm,y_cen_norm,width_norm,height_norm))
+        f.write('0 {} {} {} {} '.format(x_cen_norm,y_cen_norm, width_norm, height_norm))
 
     # Create BB image
     if len(fnmatch.filter(os.listdir("/home/stian/repos/CS569_project/files/bb"), '*.*')) < BB_AMOUNT:

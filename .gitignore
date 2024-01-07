@@ -11,6 +11,7 @@ object_detection/train/labels.cache
 object_detection/valid/images/*
 object_detection/valid/labels/*
 object_detection/valid/labels.cache
-object_detection/runs/detect/*
+runs/detect/*
 object_detection/wandb/*
-object_detection/*.pt
+*.pt
+wandb/*
