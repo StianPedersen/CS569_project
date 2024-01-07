@@ -1,5 +1,5 @@
 COLLECTION_NAME = "Created_Collection"
-DIFFERENT_SCENES = 100
+DIFFERENT_SCENES = 1
 TRANSFORMATION_FACTOR = 3
 SAVE_PATH = "/home/stian/repos/CS569_project/files/"
 ROWS = COLS = 4
